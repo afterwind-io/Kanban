@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+
+  background-image:
+    radial-gradient(
+      circle farthest-corner at top center,
+      hsl(61, 100%, 96%),
+      hsl(207, 50%, 50%)
+    );
+}
+
+@mixin shadow-dp-1 {
+  box-shadow: 0 2px 3px grey;
+}
+
+.ui-panel {
+  @include shadow-dp-1;
+
+  background-color: white;
+}

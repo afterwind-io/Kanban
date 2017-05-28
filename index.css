@@ -1,0 +1,166 @@
+/* @for $i from 1 through 14 {
+  .gutter-#{$i} { flex-grow: $i; }
+  .span-#{$i} { flex-grow: $i; }
+} */
+
+.gutter-3 {
+  flex-grow: 3;
+}
+.gutter-5 {
+  flex-grow: 5;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.body {
+  font-size: 14px;
+}
+
+.table-row {
+  display: flex;
+}
+
+.col-label {
+  width: 100px;
+  
+  line-height: 60px;
+  text-align: center;
+  border-right: 1px solid lightgrey;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.col-content {
+  width: 700px;
+}
+
+.scales {
+  display: flex;
+  width: 700px;
+  font-size: 10px;
+  text-align: center;
+  justify-content: space-around;
+  align-items: center;
+  line-height: 20px;
+}
+
+.scale-span {
+  width: 50px;
+  border-right: 1px solid lightgrey;
+}
+
+.scale-day {
+  width: 100px;
+  border-right: 1px solid lightgrey;
+}
+
+.scale-day:last-child,
+.scale-span:last-child{
+  border-right: 1px solid transparent;
+}
+
+
+.row {
+  position: relative;
+  display: flex;
+  width: 700px;
+  height: 60px;
+  justify-content: space-around;
+  align-items: center;
+  /* background-color: rgba(255, 0, 255, 0.3); */
+}
+
+.timeline {
+  height: 1px;
+  background-color: lightgrey;
+  flex-grow: 1;
+}
+
+.span {
+  position: absolute;
+  left: 0;
+  height: 40px;
+  border-radius: 3px;
+  /* box-shadow:
+    0px 2px 5px grey,
+    0px 5px 10px rgba(255, 255, 255, 0.3) inset,
+    0px 20px 2px rgba(255, 255, 255, 0.5) inset,
+    0px -5px 10px rgba(0, 0, 0, 0.3) inset; */
+  box-shadow: 0px 2px 5px grey;
+  color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  line-height: 40px;
+  transition: 300ms;
+  cursor: pointer;
+}
+
+.span:hover {
+  box-shadow: 0px 3px 8px grey;
+}
+
+.span-red {
+  /* background-color: #FF9999; */
+  background-image:
+    linear-gradient(
+      180deg,
+      #FF9999,
+      #E58A8A
+    );
+}
+
+.span-yellow {
+  /* background-color: #EBFF99; */
+  background-image:
+    linear-gradient(
+      180deg,
+      #EBFF99,
+      #D3E58A
+    );
+}
+
+.span-green {
+  /* background-color: #99FFC2; */
+  background-image:
+    linear-gradient(
+      180deg,
+      #99FFC2,
+      #8AE5AE
+    );
+}
+
+.span-blue {
+  /* background-color: #99C2FF; */
+  background-image:
+    linear-gradient(
+      180deg,
+      #99C2FF,
+      #8AAEE5
+    );
+}
+
+.span-purple {
+  /* background-color: #EB99FF; */
+  background-image:
+    linear-gradient(
+      180deg,
+      #EB99FF,
+      #D38AE5
+    );
+}
+
+.span-start-3 {
+  left: 150px;
+}
+.span-start-10 {
+  left: 500px;
+}
+
+.span-3 {
+  width: 150px;
+}
+.span-6 {
+  width: 300px;
+}
