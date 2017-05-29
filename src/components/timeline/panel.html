@@ -1,0 +1,38 @@
+<div class="ui-panel panel">
+  <header>
+    <h1>时间线</h1>
+  </header>
+
+  <section>
+    <div class="table">
+      <div class="table-row">
+        <div class="table-col col-label"></div>
+        <div class="table-col col-content">
+          <div class="scales">
+            <div class="scale-day"
+                 v-for="node in timeline.timeNodes">{{node}}</div>
+          </div>
+          <div class="scales">
+            <div class="scale-span"
+                 v-for="span in timeline.span"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-row"
+           v-for="member in timeline.members"
+           :key="member._key">
+        <div class="table-col col-label">{{member.name}}</div>
+        <div class="table-col col-content">
+          <div class="row">
+            <div class="timeline"></div>
+            <div class="span span-red"
+                 :class="getIssueStyle(issue)"
+                 v-for="issue in member.issues">{{issue.title}}</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>

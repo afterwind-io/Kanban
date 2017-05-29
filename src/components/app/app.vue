@@ -1,19 +1,19 @@
-<template>
-  <div>
-    <issue-panel></issue-panel>
-  </div>
-</template>
+<template src="./app.html"></template>
 
 <script lang="ts">
 import Vue from 'vue';
 
 import IssuePanel from '../issue/panel.vue'
+import TimelinePanel from '../timeline/panel.vue'
+import MemberPanel from '../member/panel.vue'
 
 export default Vue.extend({
   components: {
-    IssuePanel
+    IssuePanel,
+    TimelinePanel,
+    MemberPanel
   }
 })
 </script>
 
-<style lang="scss" src="./app.scss"></style>
+<style scoped lang="scss" src="./app.scss"></style>

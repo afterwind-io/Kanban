@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h3>{{issue.title}}</h3>
-    <p>{{issue.createdAt}}</p>
+    <h4>{{issue.createdAt}}</h4>
   </div>
 </template>
 

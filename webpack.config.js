@@ -1,7 +1,7 @@
 const path = require('path')
 const path_src = path.resolve(__dirname, './src')
 const path_dist = path.resolve(__dirname, './build')
-const path_style = path.resolve(path_src, './style')
+const path_style = path.resolve(path_src, './styles')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -23,7 +23,7 @@ module.exports = {
     },
     extensions: ['.ts', '.js']
   },
-  devtool: '#source-map',
+  devtool: '#eval-source-map',
   module: {
     rules: [
       {
