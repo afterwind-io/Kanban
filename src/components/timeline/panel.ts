@@ -4,7 +4,9 @@ import * as moment from 'moment'
 import Timeline from '~/models/timeline'
 import Member from '~/models/member'
 import Issue from '~/models/issue'
-import Color from "~/models/color";
+import Color from '~/models/color'
+import Point from '~/models/point'
+import IssueSpan from './issuespan.vue'
 
 moment.locale('zh-cn')
 
@@ -18,7 +20,7 @@ const tl = new Timeline({
         new Issue({
           title: '增加账套名称点击触发切换账套功能',
           initiator: 'God',
-          start: moment.utc().weekday(0),
+          start: moment.utc().weekday(0).hour(0),
           duration: 5
         })
       ]
@@ -29,7 +31,7 @@ const tl = new Timeline({
         new Issue({
           title: '行为检测，前后端埋点统计用户使用行为',
           initiator: 'God',
-          start: moment.utc().weekday(2),
+          start: moment.utc().weekday(2).hour(0),
           duration: 7,
           color: Color.green
         })
@@ -38,16 +40,31 @@ const tl = new Timeline({
   ]
 })
 
-@Component({})
+@Component({
+  components: {
+    IssueSpan
+  }
+})
 export default class TimelinePanel extends Vue {
+  private issueSpaceWidth: number = 0
+  private timeline: Timeline = tl
+  private issueOnDrag: Issue
 
-  timeline: Timeline = tl
+  issueDragStart(targetIssue: Issue) {
+    let el: Element = document.querySelector('#timeTable .col-content')
+    this.issueSpaceWidth = el.clientWidth
 
-  getIssueStyle(issue: Issue): Array<string> {
-    return [
-      `span-start-${issue.getTimespanDiff(this.timeline.from)}`,
-      `span-range-${issue.duration}`,
-      `span-${issue.color}`
-    ]
+    this.issueOnDrag = new Issue(targetIssue)
+  }
+
+  issueDragMove({ targetIssue, dragOffset }: { targetIssue: Issue, dragOffset: Point }): void {
+    let unit: number = this.issueSpaceWidth / 14
+    let delta: number = Math.round(dragOffset.x / unit)
+    let offset: number = this.issueOnDrag.offset + delta
+
+    if (offset < 0 || offset + targetIssue.duration > this.timeline.span) return
+
+    targetIssue.setStart(this.issueOnDrag.start, delta)
+    targetIssue.setOffset(offset)
   }
 }

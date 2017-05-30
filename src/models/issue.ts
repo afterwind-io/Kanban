@@ -67,6 +67,14 @@ export default class Issue {
   public duration: number
 
   /**
+   * 时间线显示起始日期到开工日期的偏移量，以0.5天为单位
+   * 
+   * @type {number}
+   * @memberof Issue
+   */
+  public offset: number = 0
+
+  /**
    * 颜色标签
    * 
    * @type {Color}
@@ -81,14 +89,16 @@ export default class Issue {
     createdAt = moment(),
     start,
     duration = 0.5,
-    color = Color.red
+    offset = 0,
+    color = Color.red,
   }: {
       title: string,
       initiator: string,
       detail?: string,
       createdAt?: string | moment.Moment,
       start?: string | moment.Moment,
-      duration: number,
+      duration?: number,
+      offset?: number,
       color?: Color
     }) {
     this.title = title
@@ -99,6 +109,7 @@ export default class Issue {
 
     this.start = Issue.roundTime(moment(start))
     this.duration = Issue.roundTimespan(duration)
+    this.offset = offset
   }
 
   /**
@@ -127,8 +138,12 @@ export default class Issue {
    * @memberof Issue
    */
   static roundTimespan(timespan: number): number {
-    if (timespan < 0.5) return 0.5
+    // if (timespan < 0.5) return 0.5
     return Math.round(timespan * 2) / 2
+  }
+
+  setOffset(offset: number) {
+    this.offset = Issue.roundTimespan(offset)
   }
 
   /**
@@ -139,8 +154,8 @@ export default class Issue {
    * 
    * @memberof Issue
    */
-  setStart(start: moment.Moment, offset: number): void {
-    this.start = start
+  setStart(start: moment.Moment, offset: number = 0): void {
+    this.start = moment(start)
     this.shiftStartBy(offset)
   }
 
@@ -155,6 +170,7 @@ export default class Issue {
   shiftStartBy(offset: number): void {
     let hours = Issue.roundTimespan(offset) * 12
     let duration = moment.duration(hours, 'hours')
+
     this.start.add(duration)
   }
 

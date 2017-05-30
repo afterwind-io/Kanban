@@ -1,0 +1,73 @@
+@import "common";
+
+.span {
+  position: absolute;
+  left: 0;
+  height: 40px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  line-height: 40px;
+  transition: 300ms;
+  cursor: pointer;
+
+  &:hover {
+    @include shadow-dp-1;
+
+    transform: translateY(-3px);
+
+    .span-expander {
+      opacity: 1;
+    }
+  }
+}
+
+@for $i from 1 through 14 {
+  .span-range-#{$i} { width: 100 / 14 * $i * 1%; }
+  .span-start-#{$i} { left: 100 / 14 * $i * 1%; }
+}
+
+.span-dragging {
+  opacity: 0.5;
+}
+
+.span-expander {
+  @include anime;
+
+  position: absolute;
+  width: 20px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  opacity: 0;
+  cursor: ew-resize;
+  z-index: 1;
+
+  &-left {
+    left: 0;
+  }
+  &-right {
+    right: 0;
+  }
+}
+
+.span-red {
+  background-color: #FF9999;
+}
+
+.span-yellow {
+  background-color: #EBFF99;
+}
+
+.span-green {
+  background-color: #99FFC2;
+}
+
+.span-blue {
+  background-color: #99C2FF;
+}
+
+.span-purple {
+  background-color: #EB99FF;
+}

@@ -1,0 +1,11 @@
+<div :class="spanStyle"
+     draggable="true"
+     @drag="dragMove($event)"
+     @dragstart="dragStart($event)"
+     @dragend="dragEnd($event)">
+  <div draggable="true"
+       class="span-expander span-expander-left">&lt;</div>
+  <div draggable="true"
+       class="span-expander span-expander-right">&gt;</div>
+  {{context.title}}
+</div>
