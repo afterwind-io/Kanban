@@ -67,12 +67,28 @@ export default class Issue {
   public duration: number
 
   /**
-   * 时间线显示起始日期到开工日期的偏移量，以0.5天为单位
+   * 时间线显示的起始日期
+   * 
+   * @type {moment.Moment}
+   * @memberof Issue
+   */
+  public viewStart: moment.Moment
+
+  /**
+   * 时间线显示起始日期到开工日期的偏移量，以viewUnit天为单位
    * 
    * @type {number}
    * @memberof Issue
    */
-  public offset: number = 0
+  public viewOffset: number = 0
+
+  /**
+   * 时间线日期刻度的单位，以天为单位
+   * 
+   * @type {number}
+   * @memberof Issue
+   */
+  public viewUnit: number = 1
 
   /**
    * 颜色标签
@@ -89,7 +105,9 @@ export default class Issue {
     createdAt = moment(),
     start,
     duration = 0.5,
-    offset = 0,
+    viewStart,
+    viewOffset = 0,
+    viewUnit = 1,
     color = Color.red,
   }: {
       title: string,
@@ -98,7 +116,9 @@ export default class Issue {
       createdAt?: string | moment.Moment,
       start?: string | moment.Moment,
       duration?: number,
-      offset?: number,
+      viewStart: string | moment.Moment,
+      viewOffset?: number,
+      viewUnit?: number,
       color?: Color
     }) {
     this.title = title
@@ -106,70 +126,72 @@ export default class Issue {
     this.detail = detail
     this.createdAt = moment(createdAt)
     this.color = color
+    this.start = Issue.roundTime(moment(start), viewUnit)
+    this.duration = Issue.roundTimespan(duration, viewUnit)
 
-    this.start = Issue.roundTime(moment(start))
-    this.duration = Issue.roundTimespan(duration)
-    this.offset = offset
+    this.viewStart = Issue.roundTime(moment(viewStart), viewUnit)
+    this.viewOffset = viewOffset
+    this.viewUnit = viewUnit
   }
 
   /**
-   * 将时间舍入至最接近的12小时的倍数
+   * 将时间舍入至最接近的指定时间间隔的倍数
    * 
    * @static
    * @param {moment.Moment} time 需要进行舍入的时间
+   * @param {number} unit 时间间隔，单位为天
    * @returns {moment.Moment} 舍入后的时间
    * 
    * @memberof Issue
    */
-  static roundTime(time: moment.Moment): moment.Moment {
-    const unit = moment.duration(12, 'hours').asSeconds()
+  static roundTime(time: moment.Moment, unit: number): moment.Moment {
+    const unitSecs = moment.duration(24 * unit, 'hours').asSeconds()
     const secs = time.unix()
 
-    return moment.unix(Math.round(secs / unit) * unit).utc()
+    return moment.unix(Math.round(secs / unitSecs) * unitSecs).utc()
   }
 
   /**
-   * 将时间间隔舍入至最接近的0.5的倍数，最小值为0.5
+   * 将时间间隔舍入至最接近的时间间隔的倍数
    * 
    * @static
    * @param {number} timespan 需要进行舍入的时间间隔
+   * @param {number} unit 时间间隔，单位为天
    * @returns {number} 舍入后的时间间隔
    * 
    * @memberof Issue
    */
-  static roundTimespan(timespan: number): number {
-    // if (timespan < 0.5) return 0.5
-    return Math.round(timespan * 2) / 2
+  static roundTimespan(timespan: number, unit: number): number {
+    let factor = 1 / unit
+    return Math.round(timespan * factor) / factor
   }
 
-  setOffset(offset: number) {
-    this.offset = Issue.roundTimespan(offset)
+  setViewOffset(viewOffset: number) {
+    this.viewOffset = Issue.roundTimespan(viewOffset, this.viewUnit)
   }
 
   /**
    * 设置事项的开工时间
    * 
-   * @param {moment.Moment} start 
-   * @param {number} offset 
+   * @param {moment.Moment} start 开工时间
    * 
    * @memberof Issue
    */
-  setStart(start: moment.Moment, offset: number = 0): void {
+  setStart(start: moment.Moment): void {
     this.start = moment(start)
-    this.shiftStartBy(offset)
   }
 
   /**
    * 将事项的开工时间偏移指定的时间间隔
    * 
-   * @param {number} offset 偏移量，以天为单位，0.5天为步长，
-   *                        不为0.5倍数的会被舍入到最接近的数字
+   * @param {number} offset 偏移量，以this.viewUnit天为单位，单位天为步长，
+   *                        不为单位天倍数的会被舍入到最接近的数字
    * 
    * @memberof Issue
    */
   shiftStartBy(offset: number): void {
-    let hours = Issue.roundTimespan(offset) * 12
-    let duration = moment.duration(hours, 'hours')
+    let hours = Issue.roundTimespan(offset, this.viewUnit)
+    let duration = moment.duration(24 * hours * this.viewUnit, 'hours')
 
     this.start.add(duration)
   }
@@ -177,39 +199,39 @@ export default class Issue {
   /**
    * 设置事项的持续时间
    * 
-   * @param {number} duration 持续时间，以天为单位，0.5天为步长，
-   *                          不为0.5倍数的会被舍入到最接近的数字
+   * @param {number} duration 持续时间，以this.viewUnit天为单位，单位天为步长，
+   *                          不为单位天倍数的会被舍入到最接近的数字
    * 
    * @memberof Issue
    */
   setDuration(duration: number): void {
-    this.duration = Issue.roundTimespan(duration)
+    this.duration = Issue.roundTimespan(duration, this.viewUnit)
   }
 
   /**
    * 将事项的持续时间偏移指定的时间间隔
    * 
-   * @param {number} offset 偏移量，以天为单位，0.5天为步长，
-   *                        不为0.5倍数的会被舍入到最接近的数字
+   * @param {number} offset 偏移量，以this.viewUnit天为单位，单位天为步长，
+   *                        不为单位天倍数的会被舍入到最接近的数字
    * 
    * @memberof Issue
    */
   shiftDurationBy(offset: number): void {
-    this.duration += Issue.roundTimespan(offset)
+    this.duration += Issue.roundTimespan(offset, this.viewUnit)
   }
 
   /**
-   * 计算指定时间与事项开工时间之间相差0.5天的倍数
+   * 计算指定时间与事项开工时间之间相差this.viewUnit天的倍数
    * 
    * @param {moment.Moment} time 指定的时间
-   * @returns {number} 差值为0.5天的多少倍，结果取整数部分
+   * @returns {number} 差值为this.viewUnit天的多少倍，结果取最接近的整数
    * 
    * @memberof Issue
    */
   getTimespanDiff(time: moment.Moment): number {
-    const unit = moment.duration(12, 'hours').asSeconds()
+    const unit = moment.duration(24 * this.viewUnit, 'hours').asSeconds()
     const diff = this.start.unix() - time.unix()
 
-    return ~~(diff / unit)
+    return Math.round(diff / unit)
   }
 }

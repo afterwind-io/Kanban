@@ -31,9 +31,10 @@
             <issue-span v-for="issue in member.issues"
                         :key="issue._key"
                         :context="issue"
-                        :viewStart="timeline.from"
                         :onDragStart="issueDragStart"
-                        :onDragMove="issueDragMove"></issue-span>
+                        :onDragMove="issueDragMove"
+                        :onExpandStart="issueExpandStart"
+                        :onExpandMove="issueExpandMove"></issue-span>
           </div>
         </div>
       </div>

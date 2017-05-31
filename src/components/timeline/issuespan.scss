@@ -6,11 +6,7 @@
   height: 40px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 3px;
-  color: rgba(0, 0, 0, 0.5);
-  text-align: center;
-  line-height: 40px;
   transition: 300ms;
-  cursor: pointer;
 
   &:hover {
     @include shadow-dp-1;
@@ -24,20 +20,35 @@
 }
 
 @for $i from 1 through 14 {
-  .span-range-#{$i} { width: 100 / 14 * $i * 1%; }
-  .span-start-#{$i} { left: 100 / 14 * $i * 1%; }
+  .span-range-#{$i} {
+    width: 100 / 14 * $i * 1%;
+  }
+
+  .span-start-#{$i} {
+    left: 100 / 14 * $i * 1%;
+  }
 }
 
-.span-dragging {
-  opacity: 0.5;
+// .span-dragging {
+//   opacity: 0.5;
+// }
+
+.span-title {
+  color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
 }
 
 .span-expander {
   @include anime;
 
   position: absolute;
+  top: 0;
   width: 20px;
   height: 100%;
+  text-align: center;
+  line-height: 40px;
   background-color: rgba(0, 0, 0, 0.3);
   color: white;
   opacity: 0;
@@ -47,27 +58,28 @@
   &-left {
     left: 0;
   }
+
   &-right {
     right: 0;
   }
 }
 
 .span-red {
-  background-color: #FF9999;
+  background-color: #f99;
 }
 
 .span-yellow {
-  background-color: #EBFF99;
+  background-color: #ebff99;
 }
 
 .span-green {
-  background-color: #99FFC2;
+  background-color: #99ffc2;
 }
 
 .span-blue {
-  background-color: #99C2FF;
+  background-color: #99c2ff;
 }
 
 .span-purple {
-  background-color: #EB99FF;
+  background-color: #eb99ff;
 }

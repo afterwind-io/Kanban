@@ -21,7 +21,9 @@ const tl = new Timeline({
           title: '增加账套名称点击触发切换账套功能',
           initiator: 'God',
           start: moment.utc().weekday(0).hour(0),
-          duration: 5
+          duration: 5,
+          viewStart: moment.utc().weekday(0).hour(0),
+          viewUnit: 0.5
         })
       ]
     }),
@@ -33,7 +35,9 @@ const tl = new Timeline({
           initiator: 'God',
           start: moment.utc().weekday(2).hour(0),
           duration: 7,
-          color: Color.green
+          color: Color.green,
+          viewStart: moment.utc().weekday(0).hour(0),
+          viewUnit: 0.5
         })
       ]
     })
@@ -60,11 +64,45 @@ export default class TimelinePanel extends Vue {
   issueDragMove({ targetIssue, dragOffset }: { targetIssue: Issue, dragOffset: Point }): void {
     let unit: number = this.issueSpaceWidth / 14
     let delta: number = Math.round(dragOffset.x / unit)
-    let offset: number = this.issueOnDrag.offset + delta
+    let offset: number = this.issueOnDrag.viewOffset + delta
 
     if (offset < 0 || offset + targetIssue.duration > this.timeline.span) return
 
-    targetIssue.setStart(this.issueOnDrag.start, delta)
-    targetIssue.setOffset(offset)
+    targetIssue.setStart(this.issueOnDrag.start)
+    targetIssue.shiftStartBy(delta)
+    targetIssue.setViewOffset(offset)
+  }
+
+  issueExpandStart(targetIssue: Issue) {
+    let el: Element = document.querySelector('#timeTable .col-content')
+    this.issueSpaceWidth = el.clientWidth
+
+    this.issueOnDrag = new Issue(targetIssue)
+  }
+
+  issueExpandMove({ targetIssue, dragOffset, direction }: { targetIssue: Issue, dragOffset: Point, direction: String }): void {
+    console.log('wow');
+
+
+    let unit: number = this.issueSpaceWidth / 14
+    let delta: number = Math.round(dragOffset.x / unit)
+    let offset: number = this.issueOnDrag.viewOffset + delta
+
+    let factor = direction === 'forward' ? 1 : -1
+    if (this.issueOnDrag.duration + delta * factor < 1) return
+    if (this.issueOnDrag.duration + delta * factor > 14) return
+    if ((direction === 'forward') && (this.issueOnDrag.viewOffset + this.issueOnDrag.duration + delta > 14)) return
+    if ((direction === 'backward') && (this.issueOnDrag.viewOffset + delta < 0)) return
+
+    targetIssue.setStart(this.issueOnDrag.start)
+    targetIssue.setDuration(this.issueOnDrag.duration)
+
+    if (direction === 'forward') {
+      targetIssue.shiftDurationBy(delta)
+    } else {
+      targetIssue.shiftStartBy(delta)
+      targetIssue.shiftDurationBy(-delta)
+      targetIssue.setViewOffset(offset)
+    }
   }
 }

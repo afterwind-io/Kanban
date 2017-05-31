@@ -1,11 +1,21 @@
-<div :class="spanStyle"
-     draggable="true"
-     @drag="dragMove($event)"
-     @dragstart="dragStart($event)"
-     @dragend="dragEnd($event)">
-  <div draggable="true"
-       class="span-expander span-expander-left">&lt;</div>
-  <div draggable="true"
-       class="span-expander span-expander-right">&gt;</div>
-  {{context.title}}
+<div :class="spanStyle">
+  <div class="span-title"
+       draggable="true"
+       @drag="dragMove($event)"
+       @dragstart="dragStart($event)"
+       @dragend="dragEnd($event)">
+    {{context.duration + ' : ' + context.start.toString()}}
+  </div>
+
+  <div class="span-expander span-expander-left"
+       draggable="true"
+       @drag="expandMove($event, 'backward')"
+       @dragstart="expandStart($event)"
+       @dragend="expandEnd($event)">&lt;</div>
+
+  <div class="span-expander span-expander-right"
+       draggable="true"
+       @drag="expandMove($event, 'forward')"
+       @dragstart="expandStart($event)"
+       @dragend="expandEnd($event)">&gt;</div>
 </div>
