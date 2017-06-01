@@ -18,33 +18,45 @@ export default class Timeline {
   public from: moment.Moment
 
   /**
-   * 时间线跨度
+   * 时间线结束日期
+   * 
+   * @type {moment.Moment}
+   * @memberof Timeline
+   */
+  public to: moment.Moment
+
+  /**
+   * 时间线显示的日期间隔单位，单位为天
    * 
    * @type {number}
    * @memberof Timeline
    */
-  public span: number
-
-  /**
-   * 时间线包含的成员列表
-   * 
-   * @type {Array<Member>}
-   * @memberof Timeline
-   */
-  public members: Array<Member>
+  public unit: number
 
   constructor({
     from = moment(),
-    span = 7,
-    members = []
+    to = moment(),
+    unit = 1
   }: {
       from: moment.Moment,
-      span: number,
-      members: Array<Member>
+      to: moment.Moment,
+      unit: number
     }) {
     this.from = from
-    this.span = span
-    this.members = members
+    this.to = to
+    this.unit = unit
+  }
+
+  /**
+   * 获取时间线包含的刻度数量
+   * 
+   * @readonly
+   * @type {number}
+   * @memberof Timeline
+   */
+  get span(): number {
+    let diff = this.to.diff(this.from, 'days', true)
+    return Math.round(diff / this.unit)
   }
 
   /**
@@ -55,12 +67,12 @@ export default class Timeline {
    * @memberof Timeline
    */
   get timeNodes(): Array<string> {
-    let nodes: Array<string> = []
-
-    for (let i = 0; i < this.span / 2; i++) {
-      nodes.push(this.from.clone().add(i, 'days').format('MM/DD'))
-    }
-
-    return nodes
+    return [...Array(this.span).keys()].map(i => {
+      if (!Number.isInteger(i * this.unit)) {
+        return ''
+      } else {
+        return this.from.clone().add(i * this.unit, 'days').format('MM/DD')
+      }
+    })
   }
 }

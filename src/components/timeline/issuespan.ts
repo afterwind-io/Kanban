@@ -2,32 +2,44 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import * as moment from 'moment'
 import { throttle } from '~/utils/common'
+import Timeline from "~/models/timeline";
 import Issue from '~/models/issue'
 import Point from '~/models/point'
+import Store from '~/stores/global'
 
 @Component({
   props: {
-    context: Issue,
+    issue: Issue,
     onDragStart: Function,
     onDragMove: Function,
+    onDragEnd: Function,
     onExpandStart: Function,
     onExpandMove: Function
   }
 })
 export default class IssueSpan extends Vue {
+  private timeline: Timeline = Store.timeline
   private origin: Point = new Point()
   private dragMoveWithThrottle: Function
   private expandMoveWithThrottle: Function
 
-  get spanStyle(): Array<string> {
-    let context: Issue = this.$props.context
+  get spanClass(): Array<string> {
+    let context: Issue = this.$props.issue
 
     return [
       `span`,
-      `span-start-${context.viewOffset}`,
-      `span-range-${context.duration}`,
       `span-${context.color}`
     ]
+  }
+
+  get spanStyle(): Object {
+    let timeline: Timeline = this.timeline
+    let issue: Issue = this.$props.issue
+
+    return {
+      width: `${(100 / timeline.span * issue.duration).toFixed(5)}%`,
+      left: `${(100 / timeline.span * issue.viewOffset).toFixed(5)}%`
+    }
   }
 
   dragStart(event: DragEvent) {
@@ -35,29 +47,36 @@ export default class IssueSpan extends Vue {
     event.dataTransfer.setDragImage(
       window.document.createElement('div'), 0, 0);
 
-    this.origin.x = event.x
-    this.origin.y = event.y
+    this.origin.x = event.clientX
+    this.origin.y = event.clientY
 
-    this.$props.onDragStart(this.$props.context)
+    this.$props.onDragStart(this.$props.issue)
+    Store.issueOnDrag = new Issue(this.$props.issue)
   }
 
   dragMove(event: DragEvent) {
     // FIXME: event的鼠标位置偶尔会错误的为(0, 0)
-    if (event.x === 0 && event.y === 0) return
+    if (event.clientX === 0 && event.clientY === 0) return
 
     let offset = new Point(
-      event.x - this.origin.x,
-      event.y - this.origin.y
+      event.clientX - this.origin.x,
+      event.clientY - this.origin.y
     )
 
     this.dragMoveWithThrottle({
-      targetIssue: this.$props.context,
+      targetIssue: this.$props.issue,
       dragOffset: offset
     })
   }
 
   dragEnd(event: DragEvent) {
+    let isValid = event.dataTransfer.dropEffect !== 'none'
+    if (!isValid) return
 
+    this.$props.onDragEnd({
+      targetIssue: this.$props.issue,
+      isValid
+    })
   }
 
   expandStart(event: DragEvent) {
@@ -69,10 +88,11 @@ export default class IssueSpan extends Vue {
 
     console.dir(event.target)
 
-    this.origin.x = event.x
-    this.origin.y = event.y
+    this.origin.x = event.clientX
+    this.origin.y = event.clientY
 
-    this.$props.onExpandStart(this.$props.context)
+    this.$props.onExpandStart(this.$props.issue)
+    Store.issueOnDrag = new Issue(this.$props.issue)
   }
 
   expandMove(event: DragEvent, direction: string) {
@@ -80,13 +100,13 @@ export default class IssueSpan extends Vue {
     if (event.x === 0 && event.y === 0) return
 
     let offset = new Point(
-      event.x - this.origin.x,
-      event.y - this.origin.y
+      event.clientX - this.origin.x,
+      event.clientY - this.origin.y
     )
 
     let report = params => this.$props.onExpandMove(params)
     this.expandMoveWithThrottle({
-      targetIssue: this.$props.context,
+      targetIssue: this.$props.issue,
       dragOffset: offset,
       direction
     })
@@ -97,7 +117,7 @@ export default class IssueSpan extends Vue {
   }
 
   mounted() {
-    let context: Issue = this.$props.context
+    let context: Issue = this.$props.issue
     let viewStart: moment.Moment = context.viewStart
 
     context.viewOffset = context.getTimespanDiff(viewStart)

@@ -99,6 +99,7 @@ export default class Issue {
   public color: Color
 
   constructor({
+    _key = idGen(),
     title,
     initiator,
     detail,
@@ -110,6 +111,7 @@ export default class Issue {
     viewUnit = 1,
     color = Color.red,
   }: {
+      _key?: string
       title: string,
       initiator: string,
       detail?: string,
@@ -121,6 +123,7 @@ export default class Issue {
       viewUnit?: number,
       color?: Color
     }) {
+    this._key = _key
     this.title = title
     this.initiator = initiator
     this.detail = detail

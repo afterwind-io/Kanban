@@ -21,24 +21,15 @@
       </div>
 
       <div class="table-row"
-           v-for="member in timeline.members"
-           :key="member._key">
+           v-for="member in members">
         <div class="table-col col-label">{{member.name}}</div>
         <div class="table-col col-content">
-          <div class="row">
-            <div class="timeline"></div>
-
-            <issue-span v-for="issue in member.issues"
-                        :key="issue._key"
-                        :context="issue"
-                        :onDragStart="issueDragStart"
-                        :onDragMove="issueDragMove"
-                        :onExpandStart="issueExpandStart"
-                        :onExpandMove="issueExpandMove"></issue-span>
-          </div>
+          <member-span :key="member._key"
+                       :member="member"></member-span>
         </div>
       </div>
 
     </div>
+
   </section>
 </div>

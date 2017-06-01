@@ -1,0 +1,17 @@
+<div class="member-span"
+     :class="{'member-span--dragover': isDragover}"
+     @dragover="onDragOver($event)"
+     @dragleave="onDragLeave($event)"
+     @drop="onDrop($event)">
+  <div class="timeline"></div>
+
+  <issue-span v-for="issue in member.issues"
+              :key="issue._key"
+              :timeline="timeline"
+              :issue="issue"
+              :onDragStart="issueDragStart"
+              :onDragMove="issueDragMove"
+              :onDragEnd="issueDragEnd"
+              :onExpandStart="issueExpandStart"
+              :onExpandMove="issueExpandMove"></issue-span>
+</div>

@@ -1,0 +1,22 @@
+@import 'common';
+
+.member-span {
+  @include anime;
+
+  position: relative;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.member-span--dragover {
+  background-color: lighten(orange, 40%);
+}
+
+.timeline {
+  height: 1px;
+  background-color: lightgrey;
+  flex-grow: 1;
+  pointer-events: none;
+}

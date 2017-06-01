@@ -1,11 +1,12 @@
-<div :class="spanStyle">
+<div :class="spanClass"
+     :style="spanStyle">
   <div class="span-title"
        draggable="true"
        @drag="dragMove($event)"
        @dragstart="dragStart($event)"
        @dragend="dragEnd($event)">
-    {{'(' + context.duration + ') ' + context.start.format('MM-DD HH:00:00')}}
-    <!--{{context.title}}-->
+    {{'(' + issue.duration + ') ' + issue.start.format('MM-DD HH:00:00')}}
+    <!--{{issue.title}}-->
   </div>
 
   <div class="span-expander span-expander-left"

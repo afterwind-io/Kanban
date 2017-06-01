@@ -10,7 +10,6 @@
 
 .col-label {
   width: 100px;
-  
   line-height: 60px;
   text-align: center;
   color: rgba(0, 0, 0, 0.7);
@@ -29,7 +28,7 @@
   flex-grow: 1;
   height: 20px;
 
-  &:before {
+  &::before {
     content: '';
     position: absolute;
     top: 50%;
@@ -49,8 +48,8 @@
   line-height: 20px;
 }
 
-.scale-span:last-child{
-  &:after {
+.scale-span:last-child {
+  &::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -62,20 +61,3 @@
     transform: translateX(100%) translateY(-50%);
   }
 }
-
-
-.row {
-  position: relative;
-  height: 60px;
-
-  display: flex;
-  align-items: center;
-}
-
-.timeline {
-  height: 1px;
-  background-color: lightgrey;
-  flex-grow: 1;
-}
-
-
