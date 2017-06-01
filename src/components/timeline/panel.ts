@@ -24,6 +24,15 @@ const tl = new Timeline({
           duration: 5,
           viewStart: moment.utc().weekday(0).hour(0),
           viewUnit: 0.5
+        }),
+        new Issue({
+          title: '我是来搅局的',
+          initiator: 'God',
+          start: moment.utc().weekday(5).hour(0),
+          duration: 3,
+          viewStart: moment.utc().weekday(0).hour(0),
+          viewUnit: 0.5,
+          color: 'blue'
         })
       ]
     }),
@@ -81,9 +90,6 @@ export default class TimelinePanel extends Vue {
   }
 
   issueExpandMove({ targetIssue, dragOffset, direction }: { targetIssue: Issue, dragOffset: Point, direction: String }): void {
-    console.log('wow');
-
-
     let unit: number = this.issueSpaceWidth / 14
     let delta: number = Math.round(dragOffset.x / unit)
     let offset: number = this.issueOnDrag.viewOffset + delta

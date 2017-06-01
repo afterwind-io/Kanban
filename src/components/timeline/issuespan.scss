@@ -34,10 +34,14 @@
 // }
 
 .span-title {
+  padding: 0 8px;
   color: rgba(0, 0, 0, 0.5);
   text-align: center;
   line-height: 40px;
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .span-expander {

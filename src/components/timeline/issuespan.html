@@ -4,7 +4,8 @@
        @drag="dragMove($event)"
        @dragstart="dragStart($event)"
        @dragend="dragEnd($event)">
-    {{context.duration + ' : ' + context.start.toString()}}
+    {{'(' + context.duration + ') ' + context.start.format('MM-DD HH:00:00')}}
+    <!--{{context.title}}-->
   </div>
 
   <div class="span-expander span-expander-left"
