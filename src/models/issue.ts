@@ -2,6 +2,20 @@ import * as moment from 'moment'
 import { idGen } from '~/utils/common'
 import Color from '~/models/color'
 
+interface IssueOptions {
+  _id?: string
+  _key?: string
+  title: string
+  initiator: string
+  detail?: string
+  createdAt?: string | moment.Moment
+  start?: string | moment.Moment
+  duration?: number
+  viewOffset?: number
+  viewUnit?: number
+  color?: Color
+}
+
 /**
  * 事项
  * 
@@ -11,7 +25,15 @@ import Color from '~/models/color'
 export default class Issue {
 
   /**
-   * id
+   * 数据标识
+   * 
+   * @type {string}
+   * @memberof Issue
+   */
+  public _id: string = ''
+
+  /**
+   * UI层索引标识
    * 
    * @type {string}
    * @memberof Issue
@@ -67,14 +89,6 @@ export default class Issue {
   public duration: number
 
   /**
-   * 时间线显示的起始日期
-   * 
-   * @type {moment.Moment}
-   * @memberof Issue
-   */
-  public viewStart: moment.Moment
-
-  /**
    * 时间线显示起始日期到开工日期的偏移量，以viewUnit天为单位
    * 
    * @type {number}
@@ -99,6 +113,7 @@ export default class Issue {
   public color: Color
 
   constructor({
+    _id,
     _key = idGen(),
     title,
     initiator,
@@ -106,23 +121,11 @@ export default class Issue {
     createdAt = moment(),
     start,
     duration = 0.5,
-    viewStart,
     viewOffset = 0,
     viewUnit = 1,
     color = Color.red,
-  }: {
-      _key?: string
-      title: string,
-      initiator: string,
-      detail?: string,
-      createdAt?: string | moment.Moment,
-      start?: string | moment.Moment,
-      duration?: number,
-      viewStart: string | moment.Moment,
-      viewOffset?: number,
-      viewUnit?: number,
-      color?: Color
-    }) {
+  }: IssueOptions) {
+    this._id = _id
     this._key = _key
     this.title = title
     this.initiator = initiator
@@ -132,9 +135,22 @@ export default class Issue {
     this.start = Issue.roundTime(moment(start), viewUnit)
     this.duration = Issue.roundTimespan(duration, viewUnit)
 
-    this.viewStart = Issue.roundTime(moment(viewStart), viewUnit)
     this.viewOffset = viewOffset
     this.viewUnit = viewUnit
+  }
+
+  /**
+   * 获得一份包含新_key的浅拷贝，
+   * 
+   * @static
+   * @param {Issue} issue 需要拷贝的数据
+   * @returns {Issue} 数据的浅拷贝，_key被替换为新值
+   * 
+   * @memberof Issue
+   */
+  static clone(issue: Issue): Issue {
+    delete issue._key
+    return new Issue(issue)
   }
 
   /**

@@ -5,8 +5,8 @@
        @drag="dragMove($event)"
        @dragstart="dragStart($event)"
        @dragend="dragEnd($event)">
-    {{'(' + issue.duration + ') ' + issue.start.format('MM-DD HH:00:00')}}
-    <!--{{issue.title}}-->
+    <!--{{'(' + issue.duration + ') ' + issue.start.format('MM-DD HH:00:00')}}-->
+    {{issue.title}}
   </div>
 
   <div class="span-expander span-expander-left"

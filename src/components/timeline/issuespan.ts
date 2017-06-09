@@ -44,8 +44,8 @@ export default class IssueSpan extends Vue {
 
   dragStart(event: DragEvent) {
     // 隐藏拖动时光标处默认复制的元素copy
-    event.dataTransfer.setDragImage(
-      window.document.createElement('div'), 0, 0);
+    // event.dataTransfer.setDragImage(
+    //   window.document.createElement('div'), 0, 0);
 
     this.origin.x = event.clientX
     this.origin.y = event.clientY
@@ -62,6 +62,13 @@ export default class IssueSpan extends Vue {
       event.clientX - this.origin.x,
       event.clientY - this.origin.y
     )
+
+    let el = <Element>(event.target)
+    console.log(Math.abs(offset.y) > el.clientHeight / 2);
+
+    if (Math.abs(offset.y) > el.clientHeight / 2) {
+      offset.x = 0
+    }
 
     this.dragMoveWithThrottle({
       targetIssue: this.$props.issue,
@@ -104,7 +111,6 @@ export default class IssueSpan extends Vue {
       event.clientY - this.origin.y
     )
 
-    let report = params => this.$props.onExpandMove(params)
     this.expandMoveWithThrottle({
       targetIssue: this.$props.issue,
       dragOffset: offset,
@@ -117,10 +123,8 @@ export default class IssueSpan extends Vue {
   }
 
   mounted() {
-    let context: Issue = this.$props.issue
-    let viewStart: moment.Moment = context.viewStart
-
-    context.viewOffset = context.getTimespanDiff(viewStart)
+    let issue: Issue = this.$props.issue
+    issue.viewOffset = issue.getTimespanDiff(this.timeline.from)
 
     this.dragMoveWithThrottle = throttle(this.$props.onDragMove, 50)
     this.expandMoveWithThrottle = throttle(this.$props.onExpandMove, 50)

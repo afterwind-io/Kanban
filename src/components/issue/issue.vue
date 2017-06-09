@@ -1,9 +1,4 @@
-<template>
-  <div class="container">
-    <h3>{{issue.title}}</h3>
-    <h4>{{issue.createdAt}}</h4>
-  </div>
-</template>
+<template src="./issue.html"></template>
 
 <script lang="ts" src="./issue.ts"></script>
 

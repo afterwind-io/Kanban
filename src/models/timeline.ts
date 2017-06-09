@@ -1,6 +1,12 @@
 import Member from './member'
 import * as moment from 'moment'
 
+interface TimelineOptions {
+  from: moment.Moment,
+  to: moment.Moment,
+  unit: number
+}
+
 /**
  * 时间线
  * 
@@ -37,11 +43,7 @@ export default class Timeline {
     from = moment(),
     to = moment(),
     unit = 1
-  }: {
-      from: moment.Moment,
-      to: moment.Moment,
-      unit: number
-    }) {
+  }: TimelineOptions) {
     this.from = from
     this.to = to
     this.unit = unit

@@ -1,14 +1,4 @@
-<template>
-  <div class="ui-panel panel">
-    <header>
-      <h2>待处理事项</h2>
-    </header>
-
-    <section>
-      <com-issue v-for="issue in issues" :key="issue._key" :issue="issue"></com-issue>
-    </section>
-  </div>
-</template>
+<template src="./panel.html"></template>
 
 <script lang="ts" src="./panel.ts"></script>
 

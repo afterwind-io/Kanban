@@ -42,7 +42,7 @@ export default class MemberSpan extends Vue {
   issueDragEnd({ targetIssue, isValid }: { targetIssue: Issue, isValid: Boolean }): void {
     if (isValid) {
       let issues: Issue[] = this.$props.member.issues
-      let index = issues.findIndex(issue => issue._key === targetIssue._key)
+      let index = issues.findIndex(issue => issue._id === targetIssue._id)
       index !== -1 && issues.splice(index, 1)
     }
   }
@@ -77,7 +77,7 @@ export default class MemberSpan extends Vue {
 
   onDragOver(event: DragEvent) {
     let issues: Issue[] = this.$props.member.issues
-    if (issues.find(issue => issue._key === Store.issueOnDrag._key) !== void 0) return
+    if (issues.find(issue => issue._id === Store.issueOnDrag._id) !== void 0) return
 
     this.isDragover = true
     event.preventDefault()

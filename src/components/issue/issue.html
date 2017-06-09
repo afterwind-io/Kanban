@@ -1,0 +1,8 @@
+<div class="container"
+     draggable="true"
+     @drag="onDrag($event)"
+     @dragstart="onDragStart($event)"
+     @dragend="onDragEnd($event)">
+  <h5>{{issue.title}}</h5>
+  <h6>{{issue.createdAt}}</h6>
+</div>

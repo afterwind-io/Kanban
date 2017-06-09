@@ -1,0 +1,12 @@
+@import 'common';
+
+.container {
+  @include anime;
+
+  margin-top: 10px;
+  padding: 8px;
+
+  &:hover {
+    background-color: lighten(orange, 30%);
+  }
+}

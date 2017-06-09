@@ -1,6 +1,11 @@
 import { idGen } from '~/utils/common'
 import Issue from './issue'
 
+interface MemberOptions {
+  name: string,
+  issues: Array<Issue>
+}
+
 /**
  * 成员
  * 
@@ -36,10 +41,7 @@ export default class Member {
   constructor({
     name,
     issues
-  }: {
-      name: string,
-      issues: Array<Issue>
-    }) {
+  }: MemberOptions) {
     this.name = name
     this.issues = issues
   }
