@@ -1,10 +1,15 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
 import * as moment from 'moment'
-import Issue from '~/models/issue'
+import * as VuexHelper from '~/utils/vuex-ts'
+import Issue from "~/models/issue";
 import Timeline from "~/models/timeline";
 import Member from "~/models/member";
 import Color from "~/models/color";
 
-const store = {
+Vue.use(Vuex)
+
+const state = {
   issueOnDrag: new Issue({ title: '', initiator: '' }),
   timeline: new Timeline({
     from: moment.utc().weekday(0).hour(0),
@@ -54,5 +59,33 @@ const store = {
     })
   ]
 }
+
+const getters = {
+  getTimeline: state => state.timeline,
+  getIssues: state => state.issues,
+  getMembers: state => state.members,
+  getIssueOnDrag: state => state.issueOnDrag
+}
+
+const mutations = {
+  setIssueOnDrag(state, issue: Issue) {
+    state.issueOnDrag = issue
+  }
+}
+
+const actions = {
+  cacheDragIssue({ commit }, issue: Issue) {
+    commit('setIssueOnDrag', issue)
+  }
+}
+
+let store = new Vuex.Store({
+  state,
+  getters,
+  mutations,
+  actions
+})
+
+VuexHelper.open(store)
 
 export default store

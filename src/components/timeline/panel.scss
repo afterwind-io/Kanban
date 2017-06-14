@@ -1,4 +1,5 @@
 @import "common";
+@import "colors";
 
 .panel {
   width: 100%;
@@ -60,4 +61,19 @@
     border-radius: 50%;
     transform: translateX(100%) translateY(-50%);
   }
+}
+
+.garbage {
+  display: inline-block;
+  background: white;
+  transition: 300ms;
+
+  &--highlight {
+    color: $g-color-red;
+    background: transparentize($g-color-red, 0.7);
+  }
+}
+
+.bin {
+  font-size: 60px;
 }

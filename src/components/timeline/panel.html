@@ -31,5 +31,13 @@
 
     </div>
 
+    <div class="garbage"
+         :class="{'garbage--highlight': isDragOverBin}"
+         @dragover="intoTheBin($event)"
+         @dragleave="outTheBin($event)"
+         @drop="toss($event)">
+      <i class="bin fi flaticon-garbage"></i>
+    </div>
+
   </section>
 </div>

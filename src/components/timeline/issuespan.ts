@@ -1,11 +1,11 @@
 import Vue from 'vue'
+import { mapGetter, mapAction } from '~/utils/vuex-ts'
 import Component from 'vue-class-component'
 import * as moment from 'moment'
 import { throttle } from '~/utils/common'
 import Timeline from "~/models/timeline";
 import Issue from '~/models/issue'
 import Point from '~/models/point'
-import Store from '~/stores/global'
 
 @Component({
   props: {
@@ -18,10 +18,15 @@ import Store from '~/stores/global'
   }
 })
 export default class IssueSpan extends Vue {
-  private timeline: Timeline = Store.timeline
   private origin: Point = new Point()
   private dragMoveWithThrottle: Function
   private expandMoveWithThrottle: Function
+
+  @mapGetter('getTimeline')
+  get timeline(): Timeline { return }
+
+  @mapGetter('getIssueOnDrag')
+  get issueOnDrag(): Issue { return }
 
   get spanClass(): Array<string> {
     let context: Issue = this.$props.issue
@@ -42,6 +47,9 @@ export default class IssueSpan extends Vue {
     }
   }
 
+  @mapAction('cacheDragIssue')
+  cacheDragIssue(issue: Issue) { }
+
   dragStart(event: DragEvent) {
     // 隐藏拖动时光标处默认复制的元素copy
     // event.dataTransfer.setDragImage(
@@ -51,7 +59,7 @@ export default class IssueSpan extends Vue {
     this.origin.y = event.clientY
 
     this.$props.onDragStart(this.$props.issue)
-    Store.issueOnDrag = new Issue(this.$props.issue)
+    this.cacheDragIssue(new Issue(this.$props.issue))
   }
 
   dragMove(event: DragEvent) {
@@ -64,8 +72,6 @@ export default class IssueSpan extends Vue {
     )
 
     let el = <Element>(event.target)
-    console.log(Math.abs(offset.y) > el.clientHeight / 2);
-
     if (Math.abs(offset.y) > el.clientHeight / 2) {
       offset.x = 0
     }
@@ -99,7 +105,7 @@ export default class IssueSpan extends Vue {
     this.origin.y = event.clientY
 
     this.$props.onExpandStart(this.$props.issue)
-    Store.issueOnDrag = new Issue(this.$props.issue)
+    this.cacheDragIssue(new Issue(this.$props.issue))
   }
 
   expandMove(event: DragEvent, direction: string) {

@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { mapGetter } from '~/utils/vuex-ts'
 import Component from 'vue-class-component'
 import * as moment from 'moment'
 import Timeline from '~/models/timeline'
@@ -7,7 +8,6 @@ import Issue from '~/models/issue'
 import Point from '~/models/point'
 
 import IssueSpan from './issuespan.vue'
-import Store from '~/stores/global'
 
 @Component({
   components: {
@@ -20,7 +20,12 @@ import Store from '~/stores/global'
 export default class MemberSpan extends Vue {
   private isDragover: Boolean = false
   private issueSpaceWidth: number = 0
-  private timeline: Timeline = Store.timeline
+
+  @mapGetter('getTimeline')
+  get timeline(): Timeline { return }
+
+  @mapGetter('getIssueOnDrag')
+  get issueOnDrag(): Issue { return }
 
   issueDragStart(targetIssue: Issue) {
     let el: Element = document.querySelector('#timeTable .col-content')
@@ -30,11 +35,11 @@ export default class MemberSpan extends Vue {
   issueDragMove({ targetIssue, dragOffset }: { targetIssue: Issue, dragOffset: Point }): void {
     let unit: number = this.issueSpaceWidth / this.timeline.span
     let delta: number = Math.round(dragOffset.x / unit)
-    let offset: number = Store.issueOnDrag.viewOffset + delta
+    let offset: number = this.issueOnDrag.viewOffset + delta
 
     if (offset < 0 || offset + targetIssue.duration > this.timeline.span) return
 
-    targetIssue.setStart(Store.issueOnDrag.start)
+    targetIssue.setStart(this.issueOnDrag.start)
     targetIssue.shiftStartBy(delta)
     targetIssue.setViewOffset(offset)
   }
@@ -55,16 +60,16 @@ export default class MemberSpan extends Vue {
   issueExpandMove({ targetIssue, dragOffset, direction }: { targetIssue: Issue, dragOffset: Point, direction: String }): void {
     let unit: number = this.issueSpaceWidth / this.timeline.span
     let delta: number = Math.round(dragOffset.x / unit)
-    let offset: number = Store.issueOnDrag.viewOffset + delta
+    let offset: number = this.issueOnDrag.viewOffset + delta
 
     let factor = direction === 'forward' ? 1 : -1
-    if (Store.issueOnDrag.duration + delta * factor < 1) return
-    if (Store.issueOnDrag.duration + delta * factor > this.timeline.span) return
-    if ((direction === 'forward') && (Store.issueOnDrag.viewOffset + Store.issueOnDrag.duration + delta > this.timeline.span)) return
-    if ((direction === 'backward') && (Store.issueOnDrag.viewOffset + delta < 0)) return
+    if (this.issueOnDrag.duration + delta * factor < 1) return
+    if (this.issueOnDrag.duration + delta * factor > this.timeline.span) return
+    if ((direction === 'forward') && (this.issueOnDrag.viewOffset + this.issueOnDrag.duration + delta > this.timeline.span)) return
+    if ((direction === 'backward') && (this.issueOnDrag.viewOffset + delta < 0)) return
 
-    targetIssue.setStart(Store.issueOnDrag.start)
-    targetIssue.setDuration(Store.issueOnDrag.duration)
+    targetIssue.setStart(this.issueOnDrag.start)
+    targetIssue.setDuration(this.issueOnDrag.duration)
 
     if (direction === 'forward') {
       targetIssue.shiftDurationBy(delta)
@@ -77,7 +82,7 @@ export default class MemberSpan extends Vue {
 
   onDragOver(event: DragEvent) {
     let issues: Issue[] = this.$props.member.issues
-    if (issues.find(issue => issue._id === Store.issueOnDrag._id) !== void 0) return
+    if (issues.find(issue => issue._id === this.issueOnDrag._id) !== void 0) return
 
     this.isDragover = true
     event.preventDefault()
@@ -88,7 +93,7 @@ export default class MemberSpan extends Vue {
   }
 
   onDrop(event: DragEvent) {
-    this.$props.member.issues.push(Store.issueOnDrag)
+    this.$props.member.issues.push(this.issueOnDrag)
 
     this.isDragover = false
   }
