@@ -1,0 +1,17 @@
+<div class="container">
+  <input type="text"
+         class="content"
+         :class="{'content--filled': hasValue}"
+         :value="value"
+         @input="onchange($event.target.value)">
+
+  <p class="label">{{label}}</p>
+
+  <p class="placeholder"
+     :class="{'placeholder--hidden': hasValue}">{{placeholder}}</p>
+
+  <div class="border-fixed"></div>
+  <div class="border-reactive"></div>
+
+  <p class="hint">{{hint}}</p>
+</div>

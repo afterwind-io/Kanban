@@ -1,0 +1,80 @@
+@import 'colors';
+@import 'common';
+
+@mixin uniform-height {
+  line-height: 30px;
+}
+
+.container {
+  position: relative;
+}
+
+.content {
+  @include uniform-height();
+
+  width: 100%;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  background-color: transparent;
+
+  &--filled ~ .label {
+    transform: translate(0, -80%) scale(0.75);
+  }
+
+  &:focus ~ .label {
+    transform: translate(0, -80%) scale(0.75);
+  }
+
+  &:focus ~ .placeholder {
+    opacity: 1;
+  }
+
+  &:focus ~ .border-reactive {
+    width: 100%;
+  }
+}
+
+.label {
+  @include anime;
+  @include uniform-height();
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 16px;
+  pointer-events: none;
+  transform: translate(0, 0);
+  transform-origin: left top;
+}
+
+.placeholder {
+  @include anime;
+  @include uniform-height();
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 16px;
+  pointer-events: none;
+  color: grey;
+  opacity: 0;
+
+  &--hidden {
+    opacity: 0 !important;
+  }
+}
+
+.border-fixed {
+  position: absolute;
+  width: 100%;
+  border-bottom: 1px solid orange;
+}
+
+.border-reactive {
+  @include anime;
+
+  position: absolute;
+  width: 0%;
+  border-bottom: 2px solid orange;
+}
