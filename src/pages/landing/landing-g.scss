@@ -1,0 +1,38 @@
+@import 'common';
+
+.kb-landing {
+  .kb-input {
+    @include anime;
+
+    @mixin uniform-height {
+      line-height: 40px;
+    }
+
+    height: 100px;
+    font-size: 24px;
+    color: white;
+
+    .content {
+      @include uniform-height();
+
+      opacity: 0.8;
+    }
+
+    .label {
+      @include uniform-height();
+
+      opacity: 0.5;
+    }
+
+    .placeholder {
+      @include uniform-height();
+
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.5em;
+    }
+
+    .underscore {
+      background-color: white;
+    }
+  }
+}

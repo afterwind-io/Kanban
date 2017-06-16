@@ -1,3 +1,48 @@
-<div>
-  <h1>Hello {{username}}!</h1>
+<div class="kb-landing container">
+
+  <div class="board">
+    <div class="board-highlight"></div>
+
+    <div class="board-child board--left">
+      <p class="fi flaticon-monitor"></p>
+      <h1>Kanban</h1>
+      <h3>Manage and Share Your Schedule</h3>
+    </div>
+
+    <div class="board-child board--right">
+      <div class="sign-box">
+        <p :class="{'sign--off': mode === 'signup'}"
+           @click="switchMode('signin')">Sign In</p>
+
+        <span>or</span>
+
+        <p :class="{'sign--off': mode === 'signin'}"
+           @click="switchMode('signup')">Sign Up</p>
+      </div>
+
+      <div class="info-box">
+        <kb-input label="Username"
+                  placeholder="Whatever you like"
+                  shrinkable="false"
+                  v-model="username"></kb-input>
+        <kb-input label="Password"
+                  placeholder="8 digits minimun with numbers, alphabets or underscore"
+                  shrinkable="false"
+                  v-model="password"></kb-input>
+        <transition name="info">
+          <kb-input label="Email"
+                    placeholder="To help verifying your identity"
+                    shrinkable="false"
+                    v-model="email"
+                    v-show="mode === 'signup'"></kb-input>
+        </transition>
+      </div>
+
+      <div class="op-box">
+        <button @click="login()"><span class="fi flaticon-next-1"></span></button>
+      </div>
+
+    </div>
+  </div>
+
 </div>

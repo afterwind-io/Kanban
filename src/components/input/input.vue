@@ -2,4 +2,4 @@
 
 <script lang="ts" src="./input.ts"></script>
 
-<style lang="sass" scoped src="./input.scss"></style>
+<style lang="sass" src="./input.scss"></style>

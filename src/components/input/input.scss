@@ -5,76 +5,90 @@
   line-height: 30px;
 }
 
-.container {
+.kb-input {
+  @include anime;
+
   position: relative;
-}
-
-.content {
-  @include uniform-height();
-
-  width: 100%;
-  outline: none;
-  border: none;
   font-size: 16px;
-  background-color: transparent;
 
-  &--filled ~ .label {
-    transform: translate(0, -80%) scale(0.75);
-  }
+  .content {
+    @include uniform-height();
 
-  &:focus ~ .label {
-    transform: translate(0, -80%) scale(0.75);
-  }
-
-  &:focus ~ .placeholder {
-    opacity: 1;
-  }
-
-  &:focus ~ .border-reactive {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
+    outline: none;
+    border: none;
+    font-size: 1em;
+    background-color: transparent;
+    color: inherit;
+
+    &:focus ~ .label,
+    &--fixed ~ .label,
+    &--filled ~ .label {
+      transform: translate(0, -80%) scale(0.75);
+    }
+
+    &:focus ~ .placeholder,
+    &--fixed ~ .placeholder {
+      opacity: 1;
+    }
+
+    &:focus ~ .underscore--reactive {
+      width: 100%;
+    }
+  }
+
+  .label {
+    @include anime;
+    @include uniform-height();
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 1em;
+    color: inherit;
+    pointer-events: none;
+    transform: translate(0, 0);
+    transform-origin: left top;
+  }
+
+  .placeholder {
+    @include anime;
+    @include uniform-height();
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 0.8em;
+    pointer-events: none;
+    color: inherit;
+    opacity: 0;
+
+    &--hidden {
+      opacity: 0 !important;
+    }
+  }
+
+  .underscore {
+    @include anime;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: orange;
+
+    &--fixed {
+      width: 100%;
+      height: 1px;
+      opacity: 0.5;
+    }
+
+    &--reactive {
+      width: 0%;
+      height: 2px;
+    }
   }
 }
 
-.label {
-  @include anime;
-  @include uniform-height();
-
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 16px;
-  pointer-events: none;
-  transform: translate(0, 0);
-  transform-origin: left top;
-}
-
-.placeholder {
-  @include anime;
-  @include uniform-height();
-
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 16px;
-  pointer-events: none;
-  color: grey;
-  opacity: 0;
-
-  &--hidden {
-    opacity: 0 !important;
-  }
-}
-
-.border-fixed {
-  position: absolute;
-  width: 100%;
-  border-bottom: 1px solid orange;
-}
-
-.border-reactive {
-  @include anime;
-
-  position: absolute;
-  width: 0%;
-  border-bottom: 2px solid orange;
-}

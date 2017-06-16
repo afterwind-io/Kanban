@@ -1,7 +1,7 @@
-<div class="container">
+<div class="kb-input">
   <input type="text"
          class="content"
-         :class="{'content--filled': hasValue}"
+         :class="{'content--filled': hasValue, 'content--fixed': !isShrinkable}"
          :value="value"
          @input="onchange($event.target.value)">
 
@@ -10,8 +10,8 @@
   <p class="placeholder"
      :class="{'placeholder--hidden': hasValue}">{{placeholder}}</p>
 
-  <div class="border-fixed"></div>
-  <div class="border-reactive"></div>
+  <div class="underscore underscore--fixed"></div>
+  <div class="underscore underscore--reactive"></div>
 
   <p class="hint">{{hint}}</p>
 </div>

@@ -12,11 +12,18 @@ export default class KbInput extends Vue {
   @Prop({ default: '' })
   hint: string
 
+  @Prop({ default: 'true' })
+  shrinkable: string
+
   @Prop({ default: '' })
   value: string
 
   get hasValue() {
     return this.value !== ''
+  }
+
+  get isShrinkable() {
+    return this.shrinkable === 'true'
   }
 
   onchange(value: string) {
