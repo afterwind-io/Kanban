@@ -15,7 +15,7 @@ module.exports = {
   },
   output: {
     path: path_dist,
-    filename: `app.[hash].js`
+    filename: `[name].[hash].js`
   },
   resolve: {
     alias: {
@@ -23,7 +23,7 @@ module.exports = {
     },
     extensions: ['.ts', '.js']
   },
-  devtool: 'source-map',
+  devtool: 'eval-source-map',
   module: {
     rules: [
       {
@@ -67,7 +67,21 @@ module.exports = {
     // new webpack.DefinePlugin({
     //   'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
     // }),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: function (module) {
+        if (!module.context) return false
+        if (module.context.indexOf('webpack') !== -1) return false
+
+        return module.context.indexOf('node_modules') !== -1;
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "manifest",
+      minChunks: Infinity
+    }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       inject: 'body'
