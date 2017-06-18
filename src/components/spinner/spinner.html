@@ -1,0 +1,26 @@
+<div class="site">
+  <div class="layer layer-content"
+       :class="{'layer-content--backward': on}">
+    <slot></slot>
+  </div>
+
+  <div class="layer layer-spinner"
+       :class="{'layer-spinner--backward': on}">
+
+    <div class="spinner">
+      <div class="ball ball1">
+        <div class="center"></div>
+      </div>
+      <div class="ball ball2">
+        <div class="center"></div>
+      </div>
+      <div class="ball ball3">
+        <div class="center"></div>
+      </div>
+    </div>
+
+    <p class="msg">Working on it...</p>
+
+  </div>
+
+</div>

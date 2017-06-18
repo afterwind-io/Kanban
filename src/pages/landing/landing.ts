@@ -2,12 +2,8 @@ import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
 import { mapGetter, mapAction } from '~/utils/vuex-ts'
 
-import KbInput from '~/components/input/input.vue'
-
 @Component({
-  components: {
-    KbInput
-  }
+  components: {}
 })
 export default class Landing extends Vue {
   private hint: string = ''
@@ -27,7 +23,8 @@ export default class Landing extends Vue {
   }
 
   async login() {
-    this.$router.push('home')
+    // this.$router.push('home')
+    this.$spinner.show()
   }
 
   async change() {

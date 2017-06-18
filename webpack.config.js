@@ -23,7 +23,7 @@ module.exports = {
     },
     extensions: ['.ts', '.js']
   },
-  devtool: 'eval-source-map',
+  devtool: 'source-map',
   module: {
     rules: [
       {

@@ -1,14 +1,19 @@
 import Vue from 'vue'
-import * as moment from 'moment'
 import app from './components/app/app.vue'
 import store from './stores/index'
 import router from './routes/index'
 
+import KbInput from '~/components/input/install'
+import KbSpinner from '~/components/spinner/install'
+
 import './font/flaticon.scss'
 import './styles/global.scss'
 
+import * as moment from 'moment'
 moment.locale('zh-cn')
 
+Vue.use(KbInput)
+Vue.use(KbSpinner)
 
 new Vue({
   el: '#app',
