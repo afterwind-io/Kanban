@@ -16,7 +16,7 @@ function findAction(actionName: string) {
   return async function (payload: any) {
     // 当payload为undefined时可能会导致无法正确dispatch，
     // 故补充默认值
-    await STORE.dispatch(actionName, payload || {})
+    return await STORE.dispatch(actionName, payload || {})
   }
 }
 
