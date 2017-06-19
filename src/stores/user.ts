@@ -10,21 +10,28 @@ const state: UserState = {
   user: new User({ name: 'doge' })
 }
 
-const getUser: Vuex.Getter<UserState, RootState> = state => state.user
+
+const getUser: Vuex.Getter<UserState, RootState> =
+  state => state.user
 
 
-const setUsername: Vuex.Mutation<UserState> = (state, name) => {
-  state.user.name = name
-}
+const setUser: Vuex.Mutation<UserState> =
+  (state, raw) => {
+    state.user = new User(raw)
+  }
+const setUsername: Vuex.Mutation<UserState> =
+  (state, name) => {
+    state.user.name = name
+  }
 
-const changeUsername: Vuex.Action<UserState, RootState> =
-  async ({ commit }, name) => {
+const loginAsync: Vuex.Action<UserState, RootState> =
+  async ({ commit }, { username, password }) => {
     await new Promise((resolve) => {
       setTimeout(function () {
         resolve()
       }, 3000);
     })
-    commit('setUsername', name)
+    commit('setUser', { name: username })
   }
 
 const store: Vuex.StoreOptions<UserState> = {
@@ -33,10 +40,10 @@ const store: Vuex.StoreOptions<UserState> = {
     getUser
   },
   mutations: {
-    setUsername
+    setUser
   },
   actions: {
-    changeUsername
+    loginAsync
   }
 }
 

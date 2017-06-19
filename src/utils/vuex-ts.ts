@@ -14,7 +14,9 @@ function findGetter(getterName: string) {
 
 function findAction(actionName: string) {
   return async function (payload: any) {
-    await STORE.dispatch(actionName, payload)
+    // 当payload为undefined时可能会导致无法正确dispatch，
+    // 故补充默认值
+    await STORE.dispatch(actionName, payload || {})
   }
 }
 
@@ -27,7 +29,7 @@ export function open(store: Vuex.Store<any>): void {
 
 export function mapGetter(getterName: string) {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    descriptor.get = () => { return findGetter(getterName) }
+    descriptor.get = () => findGetter(getterName)
   }
 }
 

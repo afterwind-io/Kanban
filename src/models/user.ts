@@ -1,3 +1,5 @@
+import { idGen } from '~/utils/common'
+
 /**
  * 用于初始化User类型的构造对象定义
  * 
@@ -32,8 +34,8 @@ export default class User {
   name: string
 
   constructor({
-    _id,
-    name
+    _id = idGen(),
+    name = ''
   }: UserOption) {
     this._id = _id
     this.name = name

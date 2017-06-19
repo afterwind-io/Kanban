@@ -25,7 +25,7 @@ export function idGen(length: number = 8): string {
 export function throttle(func: Function, interval: number): Function {
   let isWaiting = false
 
-  return (...args) => {
+  return (...args: any[]) => {
     if (isWaiting) return
 
     isWaiting = true

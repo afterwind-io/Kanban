@@ -11,7 +11,7 @@ declare module "vue/types/vue" {
 interface Spinner {
   /**
    * 
-   * Show loading spinner
+   * 显示加载spinner
    * 
    * @memberof Spinner
    */
@@ -19,7 +19,7 @@ interface Spinner {
 
   /**
    * 
-   * Hide loading spinner
+   * 隐藏加载spinner
    * 
    * @memberof Spinner
    */

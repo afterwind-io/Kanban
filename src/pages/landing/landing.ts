@@ -15,20 +15,27 @@ export default class Landing extends Vue {
   @mapGetter('getUser')
   get user(): string { return }
 
-  @mapAction('changeUsername')
-  woof(name: string) { }
+  @mapAction('loginAsync')
+  async loginAsync(p: any) { }
 
   switchMode(mode: 'signin' | 'signup') {
     this.mode = mode
   }
 
   async login() {
-    // this.$router.push('home')
     this.$spinner.show()
-  }
 
-  async change() {
-    await this.woof('kitty')
-    alert('wow')
+    try {
+      await this.loginAsync({
+        username: this.username,
+        password: this.password
+      })
+
+      this.$router.push('home')
+    } catch (e) {
+      // TODO
+    } finally {
+      this.$spinner.hide()
+    }
   }
 }
