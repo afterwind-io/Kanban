@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
-import { mapGetter, mapAction } from '~/utils/vuex-ts'
+import { mapAction } from '~/utils/vuex-ts'
 
 @Component({
   components: {}
@@ -12,26 +12,23 @@ export default class Landing extends Vue {
   private email: string = ''
   private mode: 'signin' | 'signup' = 'signin'
 
-  @mapGetter('getUser')
-  get user(): string { return }
-
-  @mapAction('loginAsync')
-  async loginAsync(p: any) { }
-
   switchMode(mode: 'signin' | 'signup') {
     this.mode = mode
   }
+
+  @mapAction('loginAsync')
+  loginAsync(...p: any[]): Promise<string> { return }
 
   async login() {
     this.$spinner.show()
 
     try {
-      await this.loginAsync({
+      let id = await this.loginAsync({
         username: this.username,
         password: this.password
       })
 
-      this.$router.push('home')
+      this.$router.push({ name: 'person', params: { id } })
     } catch (e) {
       // TODO
     } finally {

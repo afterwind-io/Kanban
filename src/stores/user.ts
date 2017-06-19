@@ -25,13 +25,15 @@ const setUsername: Vuex.Mutation<UserState> =
   }
 
 const loginAsync: Vuex.Action<UserState, RootState> =
-  async ({ commit }, { username, password }) => {
+  async ({ commit, state }, { username, password }) => {
     await new Promise((resolve) => {
       setTimeout(function () {
         resolve()
-      }, 3000);
+      }, 1000);
     })
     commit('setUser', { name: username })
+
+    return state.user._id
   }
 
 const store: Vuex.StoreOptions<UserState> = {

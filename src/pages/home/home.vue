@@ -2,4 +2,4 @@
 
 <script lang="ts" src="./home.ts"></script>
 
-<style lang="sass" src="./home.scss"></style>
+<style scoped lang="sass" src="./home.scss"></style>

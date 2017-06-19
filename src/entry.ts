@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import app from './components/app/app.vue'
-import store from './stores/index'
-import router from './routes/index'
+import store from './stores'
+import router from './routes'
 
 import KbInput from '~/components/input/install'
 import KbSpinner from '~/components/spinner/install'
