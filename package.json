@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --watch"
+    "start": "node webpack.server.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,9 +21,7 @@
     "socket.io-client": "^1.7.3",
     "vue": "^2.3.3",
     "vue-router": "^2.5.3",
-    "vuex": "^2.3.1",
-    "webpack": "^2.5.1",
-    "webpack-dev-server": "^2.4.5"
+    "vuex": "^2.3.1"
   },
   "devDependencies": {
     "@types/ioredis": "^0.0.23",
@@ -47,6 +45,8 @@
     "vue-class-component": "*",
     "vue-loader": "*",
     "vue-property-decorator": "*",
-    "vue-template-compiler": "*"
+    "vue-template-compiler": "*",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.4.5"
   }
 }

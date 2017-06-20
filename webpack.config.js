@@ -8,7 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   entry: {
     app: [
-      'webpack-dev-server/client?http://localhost:30000/',
+      'webpack-dev-server/client?http://127.0.0.1:30000/',
       'webpack/hot/dev-server',
       './src/entry.ts'
     ]
@@ -68,7 +68,6 @@ module.exports = {
     //   'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
     // }),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: function (module) {
@@ -78,13 +77,11 @@ module.exports = {
         return module.context.indexOf('node_modules') !== -1;
       }
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "manifest",
-      minChunks: Infinity
-    }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       inject: 'body'
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin()
   ]
 }
