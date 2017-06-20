@@ -19,6 +19,7 @@ Create and Share Your Schedules
 
 ### 4 - 其他
 - 导出json数据(?)
+- 浏览器日程通知推送
 
 ## 功能规划
 ### alpha 0.1 (~ 2017.06.31)
