@@ -66,6 +66,10 @@ button {
   cursor: pointer;
 }
 
+li {
+  list-style: none;
+}
+
 .ui-panel {
   @include anime;
 

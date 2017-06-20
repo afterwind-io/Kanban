@@ -1,0 +1,57 @@
+@import 'common';
+
+.container {
+  width: 700px;
+  height: 500px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+header {
+  width: 100%;
+
+  ul {
+    width: 100%;
+    display: flex;
+
+    li {
+      width: (100% / 7);
+      text-align: center;
+    }
+  }
+}
+
+aside {
+  // width: 100px;
+}
+
+section {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.day {
+  @include anime;
+  @include flex-center;
+
+  position: absolute;
+  width: (100% / 7);
+  height: (100% / 5);
+
+  @for $i from 0 to 35 {
+    &:nth-child(#{$i + 1}) {
+      left: ($i % 7 * 100% / 7);
+      top: ((($i - $i % 7) / 7) * 100% / 5);
+      background-color: rgba(random(255), random(255), random(255), 0.3);
+    }
+  }
+
+  &--expand {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+}

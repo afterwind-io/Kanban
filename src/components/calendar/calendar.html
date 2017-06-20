@@ -1,0 +1,26 @@
+<div class="container">
+  <header>
+    <ul>
+      <li>Mon</li>
+      <li>Tue</li>
+      <li>Wed</li>
+      <li>Thu</li>
+      <li>Fri</li>
+      <li>Sta</li>
+      <li>Sun</li>
+    </ul>
+  </header>
+
+  <aside>
+
+  </aside>
+
+  <section>
+    <div class="day"
+         :class="{'day--expand': day.selected}"
+         v-for="day in days"
+         @click="selectDay(day)">
+      <span>{{day.value}}</span>
+    </div>
+  </section>
+</div>
