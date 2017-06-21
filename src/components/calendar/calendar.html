@@ -1,26 +1,47 @@
 <div class="container">
   <header>
+    <p>
+      <i class="fi flaticon-back"
+         @click="lastMonth()"></i>
+
+      <span>{{title}}</span>
+
+      <i class="fi flaticon-next"
+         @click="nextMonth()"></i>
+    </p>
     <ul>
-      <li>Mon</li>
-      <li>Tue</li>
-      <li>Wed</li>
-      <li>Thu</li>
-      <li>Fri</li>
-      <li>Sta</li>
-      <li>Sun</li>
+      <li v-for="wd in weekdays">{{wd}}</li>
     </ul>
   </header>
 
-  <aside>
 
-  </aside>
+  <main>
+    <transition name="board">
+      <div class="board"
+           v-if="!boardFlip"
+           key="board1">
+        <div class="day"
+             :class="getDayStyle(day)"
+             v-for="day in board1"
+             :key="day.index"
+             @click="selectDay(day)">
+          <span>{{day.date}}</span>
+        </div>
+      </div>
+      <div class="board"
+           v-else
+           key="board2">
+        <div class="day"
+             :class="getDayStyle(day)"
+             v-for="day in board2"
+             :key="day.index"
+             @click="selectDay(day)">
+          <span>{{day.date}}</span>
+        </div>
+      </div>
+    </transition>
+  </main>
 
-  <section>
-    <div class="day"
-         :class="{'day--expand': day.selected}"
-         v-for="day in days"
-         @click="selectDay(day)">
-      <span>{{day.value}}</span>
-    </div>
-  </section>
+
+
 </div>

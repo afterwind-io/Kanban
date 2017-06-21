@@ -1,57 +1,129 @@
 @import 'common';
+@import 'colors';
 
 .container {
-  width: 700px;
-  height: 500px;
+  @include shadow-dp-2;
+
+  width: 600px;
+  height: 600px;
+  font-size: 16px;
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: column wrap;
+  background-color: white;
 }
 
 header {
   width: 100%;
+  flex: 0 0 50px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  p {
+    @include flex-center;
+
+    height: 50px;
+    color: rgba(0, 0, 0, 0.8);
+
+    span {
+      font-size: 1.5em;
+    }
+
+    i {
+      padding: 2em;
+      font-size: 0.5em;
+      cursor: pointer;
+    }
+  }
 
   ul {
-    width: 100%;
     display: flex;
 
     li {
-      width: (100% / 7);
+      flex: 1 0 0;
+      font-size: 1em;
       text-align: center;
+      line-height: 50px;
+      color: rgba(0, 0, 0, 0.8);
     }
   }
 }
 
-aside {
-  // width: 100px;
+main {
+  flex: 1 0 auto;
+  position: relative;
 }
 
-section {
-  position: relative;
+.board {
+  @include anime;
+
+  position: absolute;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-flow: row wrap;
+
+  &-enter,
+  &-leave-active {
+    opacity: 0;
+    transform: scale(0.8);
+  }
 }
 
 .day {
   @include anime;
   @include flex-center;
 
-  position: absolute;
   width: (100% / 7);
-  height: (100% / 5);
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 300;
+  cursor: pointer;
 
-  @for $i from 0 to 35 {
-    &:nth-child(#{$i + 1}) {
-      left: ($i % 7 * 100% / 7);
-      top: ((($i - $i % 7) / 7) * 100% / 5);
-      background-color: rgba(random(255), random(255), random(255), 0.3);
-    }
+  &--highlight {
+    text-shadow: 0 0 1px $theme-color-main;
+    color: $theme-color-main;
   }
 
-  &--expand {
-    left: 0 !important;
-    top: 0 !important;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
+  &--disable {
+    pointer-events: none;
+    color: rgba(0, 0, 0, 0.3);
+  }
+
+  &:hover {
+    @include shadow-dp-1;
+
+    background-color: $theme-color-main;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  span {
+    font-size: 1.5em;
+    pointer-events: none;
   }
 }
+
+// .day {
+//   @include anime;
+//   @include flex-center;
+
+//   position: absolute;
+//   width: (100% / 7);
+//   height: (100% / 5);
+
+//   @for $i from 0 to 35 {
+//     &:nth-child(#{$i + 1}) {
+//       left: ($i % 7 * 100% / 7);
+//       top: ((($i - $i % 7) / 7) * 100% / 5);
+//       background-color: rgba(random(255), random(255), random(255), 0.3);
+//     }
+//   }
+
+//   &--expand {
+//     left: 0 !important;
+//     top: 0 !important;
+//     width: 100%;
+//     height: 100%;
+//     z-index: 1;
+//   }
+// }
