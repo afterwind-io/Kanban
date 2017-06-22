@@ -28,8 +28,8 @@
     "@types/koa": "^2.0.39",
     "@types/koa-bodyparser": "^3.0.23",
     "@types/koa-router": "^7.0.22",
-    "@types/mongoose": "^4.7.11",
-    "@types/node": "^7.0.13",
+    "@types/mongoose": "^4.7.18",
+    "@types/node": "^8.0.1",
     "@types/socket.io": "^1.4.29",
     "css-loader": "*",
     "extract-text-webpack-plugin": "*",
@@ -47,6 +47,6 @@
     "vue-property-decorator": "*",
     "vue-template-compiler": "*",
     "webpack": "^3.0.0",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^2.5.0"
   }
 }
